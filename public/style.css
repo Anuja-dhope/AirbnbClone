@@ -1,0 +1,309 @@
+/* Base styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+/* Listings container */
+.allListings {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+/* Style for the Add New button */
+/* button[type="submit"]*/
+ #new{ 
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect */
+/* button[type="submit"] */
+#new :hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Optional: Add spacing if needed */
+a > button {
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.btns {
+  display: flex;
+  gap: 10px; /* adds space between buttons */
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.btns form {
+  margin: 0; /* remove default spacing */
+}
+/* //Delete btn */
+#deleteBtn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#deleteBtn:hover {
+    background-color: #c0392b;
+}
+
+/* Individual listing card */
+.listing {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.listing:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.listing a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 0;
+}
+
+/* Listing content */
+.listing li {
+    list-style-type: none;
+    padding: 10px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Listing image */
+.listing img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+/* shoe.ejs */
+
+.individualListing {
+    max-width: 600px;
+    margin: auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+}
+
+.individualListing li {
+    list-style-type: none;
+    margin: 15px 0;
+    font-size: 1.1rem;
+}
+
+.individualListing li b {
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+.individualListing img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+@media screen and (max-width: 768px) {
+    .individualListing {
+        padding: 20px;
+    }
+
+    .individualListing li {
+        font-size: 1rem;
+    }
+
+    .individualListing li b {
+        font-size: 1.5rem;
+    }
+}
+
+
+
+/* edit and add file styles */
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+form {
+    max-width: 600px;
+    margin: auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #34495e;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+/* 
+button[type="submit"]  */
+#formBtn{
+    margin-top: 30px;
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* button[type="submit"] */
+#formBtn :hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+
+
+
+/* //Navbar */
+.compass{
+    color: red;
+    font-size: 3rem;
+}
+nav .container{
+    font-size:1.3rem;
+}
+
+
+/* footer */
+footer{
+    height:7rem;
+    background-color: #eee;
+}
+.f-info{
+    margin:1rem;
+    padding:1rem;
+    padding-bottom: 0;
+}
+.f-info-icons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-info-links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-info-icons i{
+    padding:10px;
+    font-size:1.3rem;
+}
+.f-info-links a{
+     padding:10px;
+     text-decoration: none;
+}
+
+/* .allReviews {
+  margin-top: 2rem;
+  padding: 1rem;
+  
+  border-radius: 8px;
+}
+
+.allReviews h3 {
+  margin-bottom: 1rem;
+}
+
+.allReviews li {
+  list-style: none;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.allReviews li:last-child {
+  border-bottom: none;
+} */
+
+.allReviews{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.review{
+    width:45%;
+    border-radius: 10px;
+    box-shadow:#aaa 2px 2px 2px;
+}
