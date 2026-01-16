@@ -1,35 +1,7 @@
-<!-- <% layout('layouts/boilerplate') -%>
-<body>
-    <h1>Your Place Details</h1>
-    <form action="/listings/new" method="post">
-        <label for="title">Enter Title: </label>
-        <input type="text" name="title" placeholder="Title of place">
-        <br>
-        <label for="url">Enter Image URL: </label>
-        <input type="text" name="url" placeholder="URL of image">
-        <br>
-        <label for="description">Enter Description: </label>
-        <input type="text" name="description" placeholder="Description of place">
-        <br>
-        <label for="price">Enter Price: </label>
-        <input type="number" name="price" placeholder="Price of place in US dollars">
-        <br>
-        <label for="location">Enter Location: </label>
-        <input type="text" name="location" placeholder="Location of place">
-        <br>
-        <label for="country">Enter country: </label>
-        <input type="text" name="country" placeholder="country">
-        <br>
-        <button type="submit" class="btn btn-primary" id="formBtn">Submit</button>
-    </form>
-</body> -->
-
-
 <% layout('layouts/boilerplate') -%>
 <body>
   <h1>Your Place Details</h1>
-  <form action="/listings/new" method="post" novalidate class="needs-validation">
-
+  <!-- <form action="/listings/new" method="post" novalidate class="needs-validation">
     <div class="mb-3">
       <label for="title" class="form-label">Enter Title:</label>
       <input type="text" name="title" id="title" placeholder="Title of place" required class="form-control">
@@ -38,8 +10,8 @@
     </div>
 
     <div class="mb-3">
-      <label for="image[url]" class="form-label">Enter Image URL:</label>
-      <input type="text" name="image[url]" id="url" placeholder="URL of image" class="form-control">
+      <label for="url" class="form-label">Enter Image URL:</label>
+      <input type="text" name="url" id="url" class="form-control" placeholder="Enter url of the image">
     </div>
 
     <div class="mb-3">
@@ -81,6 +53,16 @@
     </div>
 
     <button type="submit" class="btn btn-primary" id="formBtn">Submit</button>
-  </form>
+  </form> -->
+<form action="/listings/new" method="POST" novalidate>
+  <input name="listing[title]" placeholder="Title" required />
+  <input name="listing[image][url]" placeholder="Image URL" />
+  <input name="listing[description]" placeholder="Description" required />
+  <input name="listing[price]" type="number" placeholder="Price" required />
+  <input name="listing[location]" placeholder="Location" required />
+  <input name="listing[country]" placeholder="Country" required />
+  <button>Add Listing</button>
+</form>
 
 </body>
+

@@ -5,6 +5,8 @@ const ExpressError=require("../utils/ExpressError.js");
 const {listingSchema,reviewSchema} =require("../schema.js");
 const Review=require("../model/review.js"); 
 const Listing=require("../model/listings.js");
+const {isLoggedIn}=require("../middleware.js");
+const reviewController=require("../controllers/review.js");
 
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema .validate(req.body);
@@ -18,31 +20,10 @@ const validateReview = (req, res, next) => {
 
 
 //add review
-router.post("",wrapAync(async (req,res)=>{
-   console.log("hi.");
-  let id=req.params.id;
-  let newReview=new Review(req.body.review);
-  let listing=await Listing.findById(id);
-  if (!listing) throw new ExpressError(404, "Listing not found");
-
-  listing.reviews.push(newReview);
-  await newReview.save();
-  //console.log("hi.");
-  await listing.save();
-   req.flash("success","New Review Added");
- // console.log("hi");
-  res.redirect(`/listings/${listing._id}`);
-//console.log("hi..");
-}));
+router.post("",isLoggedIn,wrapAync(reviewController.addReview));
 
 //delete review
-router.delete("/:reviewId",(async(req,res)=>{
-  let {id,reviewId}=req.params;
-  await Listing.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
-  await Review.findByIdAndDelete(reviewId);
-   req.flash("success","Review Deleted");
-  res.redirect(`/listings/${id}`);
-}));
+router.delete("/:reviewId",reviewController.delete);
 
 
 module.exports=router;

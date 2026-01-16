@@ -10,6 +10,7 @@ const sampleListings = [
     price: 1500,
     location: "Malibu",
     country: "United States",
+    owner: [mongoose.Types.ObjectId("69412ce15e1b7523d936853b")]
   },
   {
     title: "Modern Loft in Downtown",
@@ -58,6 +59,7 @@ const sampleListings = [
     price: 800,
     location: "Portland",
     country: "United States",
+    owner: [mongoose.Types.ObjectId("69412c1f1a8fe03d457e880c")]
   },
   {
     title: "Beachfront Paradise",

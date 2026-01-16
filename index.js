@@ -1,72 +1,91 @@
-// const express=require("express");
-// const app=express(); 
-// const mongoose=require("mongoose");
-// const Listing=require("./model/listings.js");
-// const path=require("path");
+// const express = require("express");
+// const app = express();
+// const mongoose = require("mongoose");
+// const path = require("path");
 // const methodOverride = require("method-override");
-// const ejsMate=require("ejs-mate");
-// const wrapAync=require("./utils/wrapAsync.js");
-// const ExpressError=require("./utils/ExpressError.js");
-// const {listingSchema,reviewSchema} =require("./schema.js");
-// const Review=require("./model/review.js");  
-// const listings=require("./routes/listing.js");
-// const reviews=require("./routes/review.js");
-// const expressSession =require("express-session");
-// const flash=require("connect-flash");
+// const ejsMate = require("ejs-mate");
+// const expressSession = require("express-session");
+// const flash = require("connect-flash");
+// const passport=require("passport");
+// const LocalStrategy=require("passport-local");
 
+
+// const Listing = require("./model/listings.js");
+// const Review = require("./model/review.js");
+// const User = require("./model/user.js");
+
+// const listingsRouter = require("./routes/listing.js");
+// const reviewsRouter = require("./routes/review.js");
+// const userRouter=require("./routes/user.js");
+
+// const wrapAsync = require("./utils/wrapAsync.js");
+// const ExpressError = require("./utils/ExpressError.js");
+// const { listingSchema, reviewSchema } = require("./schema.js");
+
+// // Middleware setup
 // app.use(methodOverride("_method"));
-// app.set("view engine","ejs");
-// app.set("views",path.join(__dirname,"views"));
-// app.use(express.static(path.join(__dirname,"public")));
+// app.engine("ejs", ejsMate);
+// app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname, "views"));
+// app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.urlencoded({ extended: true }));
-// app.engine('ejs', ejsMate); 
-// app.set('view engine', 'ejs');
-// app.use("/listings",listings);
-// app.use("/listings/:id/reviews",reviews);
+// app.use(express.json());
 
-// mongoose.connect('mongodb://127.0.0.1:27017/wanderLust')
-//   .then(() => console.log('Connected!'))
-//   .catch(err=>console.log("Error occured while connecting to db"));
-
-// const sessionOptions={
-//   secret:"mySecret",
-//   resave:false,
-//   saveUninitialized:true,
-//   cookie:{
-//     expires:Date.now() + 24*7*3600*1000,
-//     maxAge: 24*7*3600*1000,
-//   }
-// }
-
+// // Session & Flash BEFORE routes
+// const sessionOptions = {
+//   secret: "mySecret",
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 1 week
+//     maxAge: 7 * 24 * 60 * 60 * 1000,
+//   },
+// };
 // app.use(expressSession(sessionOptions));
 // app.use(flash());
+// app.use(passport.initialize());//for user login
+// app.use(passport.session());
+// //use static authenticate method of model in LocalStrategy
+// passport.use(new LocalStrategy(User.authenticate()));
 
- 
-// // //page not found
-// // app.all("/", (req, res, next) => {
-// //   next(new ExpressError(404, "Page Not Found"));
-// // });
+// //use static serialize and deserialize of model for passport session support
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
-// app.use((req,res,next)=>{
-//   res.locals.success=req.flash("success");
+// //  Make flash messages available globally
+// app.use((req, res, next) => {
+//   res.locals.success = req.flash("success");
+//   res.locals.error = req.flash("error"); // optional
+//   res.locals.currUser=req.user;
 //   next();
 // });
 
-// app.get("/",(req,res)=>{
-//     res.send("Connected!");
-// })
+// // Routes AFTER session & flash
+// app.use("/listings", listingsRouter);
+// app.use("/listings/:id/reviews", reviewsRouter);
+// app.use("/",userRouter);
 
-
-
-// //Error Handling
-// app.use((err, req, res, next) => {
-//   const { statusCode = 500, message = "Something went wrong!" } = err;
-//   res.status(statusCode).render("error.ejs",{message});;
+// // Root route
+// app.get("/", (req, res) => {
+//   res.send("WanderLust..........................");
 // });
 
-// app.listen(8080,(req,res)=>{
-//     console.log("App is Listening");
-//   });
+// // Error handling
+// app.use((err, req, res, next) => {
+//   const { statusCode = 500, message = "Something went wrong!" } = err;
+//   res.status(statusCode).render("error.ejs", { message });
+// });
+
+// // DB connection
+// mongoose
+//   .connect("mongodb://127.0.0.1:27017/wanderLust")
+//   .then(() => console.log("Connected!"))
+//   .catch((err) => console.log("Error occurred while connecting to db"));
+
+// // Server
+// app.listen(8080, () => {
+//   console.log("App is Listening");
+// });
 
 const express = require("express");
 const app = express();
@@ -74,67 +93,79 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const expressSession = require("express-session");
+const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
-const Listing = require("./model/listings.js");
-const Review = require("./model/review.js");
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
-const wrapAsync = require("./utils/wrapAsync.js");
-const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema, reviewSchema } = require("./schema.js");
+const User = require("./model/user.js");
 
-// Middleware setup
-app.use(methodOverride("_method"));
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
+// ------------------ MIDDLEWARE ------------------
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(methodOverride("_method"));
 
-// ✅ Session & Flash BEFORE routes
+// ------------------ SESSION ------------------
 const sessionOptions = {
   secret: "mySecret",
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
-    expires: Date.now() + 7 * 24 * 60 * 60 * 1000, // 1 week
+    httpOnly: true,
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   },
 };
-app.use(expressSession(sessionOptions));
+
+app.use(session(sessionOptions));
 app.use(flash());
 
-// ✅ Make flash messages available globally
+// ------------------ PASSPORT ------------------
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// ------------------ GLOBAL LOCALS ------------------
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error"); // optional
+  res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
 
-// Routes AFTER session & flash
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+// ------------------ ROUTES ------------------
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
-// Root route
 app.get("/", (req, res) => {
-  res.send("Connected!");
+  res.send("WanderLust Home");
 });
 
-// Error handling
+// ------------------ ERROR HANDLER ------------------
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong!" } = err;
   res.status(statusCode).render("error.ejs", { message });
 });
 
-// DB connection
+// ------------------ DB ------------------
 mongoose
   .connect("mongodb://127.0.0.1:27017/wanderLust")
-  .then(() => console.log("Connected!"))
-  .catch((err) => console.log("Error occurred while connecting to db"));
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
-// Server
 app.listen(8080, () => {
-  console.log("App is Listening");
+  console.log("Server running on port 8080");
 });

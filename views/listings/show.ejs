@@ -1,52 +1,80 @@
+
+
+
 <% layout('layouts/boilerplate') -%>
+
 <body>
-    <div class="individualListing">
-                  <li><b><%=listing.title%></b></li>
-                <li><img src="<%=listing.image.url%>" alt="Image"></li>
-                <li><%=listing.description%></li>
-                <li>Price: $<%=listing.price%></li>
-                <li>Location: <%=listing.location%></li>
-                 <li>Country: <%=listing.country%></li>   
-              <div class="btns">
-                <form action="/listings/<%=listing.id%>?_method=DELETE" method="POST">
-                <button type="submit" id="deleteBtn">Delete</button>
-                </form>
-                <form action="/listings/edit/<%=listing.id%>" method="get">
-                <button type="submit" id="deleteBtn">Edit</button>
-                </form>
-              </div>
-            
-           
-              <form action="/listings/<%=listing.id%>/reviews" method="post" class="mt-3 needs-validation" novalidate>
-                <h3>Leave Comment</h3>
-                <label for="review[rating]" class="form-label">Give Ratings 1-5</label>
-                <input type="range" class="form-range form-control" min="0" max="5" step="1" name="review[rating]">
-                <div class="has-validation">
-                  <label for="review[comment]" class="form-label">Comment:</label>
-                <input type="textarea" name="review[comment]" class="form-control" required>
-                <div class="invalid-feedback">
-                    Please enter comment
-                </div>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-              <hr>
-               <h3>All Reviews</h3>
-              <div class="allReviews">
-               
-                <%for(review of listing.reviews){%>  
-                    
-                    <form action="/listings/<%=listing.id%>/reviews/<%=review.id%>?_method=DELETE" method="post" class="review card m-2">
-                      <p>
-                    <li><%=review.comment%>,
-                    <%=review.rating%> star</li></p>
-                  <button type="submit" class="btn btn-primary">Delete</button>
-                </form>
-                <%}%>
-                
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="individualListing">
+
+    <li><b><%= listing.title %></b></li>
+
+    <li>
+      <img src="<%= listing.image.url %>" alt="Image">
+    </li>
+
+    <li>
+      <b>Owner:</b> <%= listing.owner.username %>
+    </li>
+
+    <li><%= listing.description %></li>
+    <li>Price: $<%= listing.price %></li>
+    <li>Location: <%= listing.location %></li>
+    <li>Country: <%= listing.country %></li>
+
+    <% if (isOwner) { %>
+      <div class="btns">
+        <form action="/listings/<%= listing.id %>?_method=DELETE" method="POST">
+          <button type="submit" id="deleteBtn">Delete</button>
+        </form>
+
+        <form action="/listings/<%= listing.id %>/edit" method="GET">
+          <button type="submit" id="deleteBtn">Edit</button>
+        </form>
+      </div>
+    <% } %>
+
+    <% if (currUser) { %>
+      <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate>
+        <h3>Leave Comment</h3>
+
+        <fieldset class="starability-slot">
+          <p class="form-label">Rating:</p>
+          <% for (let i = 1; i <= 5; i++) { %>
+            <input type="radio" name="review[rating]" value="<%= i %>">
+            <label><%= i %> star</label>
+          <% } %>
+        </fieldset>
+
+        <label class="form-label">Comment:</label>
+        <input type="text" name="review[comment]" class="form-control" required>
+
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+      </form>
+    <% } %>
+
+    <hr>
+    <h3>All Reviews</h3>
+
+    <div class="allReviews">
+      <% for (let review of listing.reviews) { %>
+        <form action="/listings/<%= listing.id %>/reviews/<%= review.id %>?_method=DELETE"
+              method="POST"
+              class="review card m-2">
+
+          <li><b><%= review.author.username %></b></li>
+          <li><%= review.comment %></li>
+
+          <p class="starability-result" data-rating="<%= review.rating %>">
+            Rated: <%= review.rating %> stars
+          </p>
+
+          <% if (currUser && review.author._id.equals(currUser._id)) { %>
+            <button type="submit" class="btn btn-primary">Delete</button>
+          <% } %>
+
+        </form>
+      <% } %>
+    </div>
+
+  </div>
 </body>

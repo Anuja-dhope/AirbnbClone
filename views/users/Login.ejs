@@ -1,0 +1,33 @@
+<% layout('layouts/boilerplate') -%>
+<br>
+<form action="/login" method="post" class="  needs-validation" novalidate>
+  <div class="">
+    <h2>Login on WanderLust</h2>
+    <br>
+    <!-- //userName -->
+  <div class="col">
+    <label for="username" class="form-label">Username</label>
+    <div class="input-group has-validation">
+      <input type="text" class="form-control" name="username" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+      <div class="invalid-feedback">
+        Please choose a username.
+      </div>
+    </div>
+  </div>
+  <!-- password -->
+  <div class="col">
+    <label for="password" class="form-label">password</label>
+    <div class="input-group has-validation">
+      <input type="password" class="form-control" name="password" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+      <div class="invalid-feedback">
+        Please enter a password.
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Login</button>
+  </div>
+  </div>
+  
+</form>
