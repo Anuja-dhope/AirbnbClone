@@ -86,7 +86,7 @@
 // app.listen(8080, () => {
 //   console.log("App is Listening");
 // });
-
+let env=require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -94,6 +94,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const MongoStore = require("connect-mongo").default;
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -104,6 +105,7 @@ const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
+const db_url=process.env.ATLASDB_URL;//mongo atlas url for storing db
 // ------------------ MIDDLEWARE ------------------
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -114,8 +116,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
 
+
 // ------------------ SESSION ------------------
+
+const store=MongoStore.create({
+  mongoUrl:db_url,
+  crypto:{
+    secret: "mySecret",
+  },
+  touchAfter:24*3600,
+});
+
+store.on("error",(error)=>{
+  console.log("Mongo Error",error);
+})
+
 const sessionOptions = {
+  store,
   secret: "mySecret",
   resave: false,
   saveUninitialized: false,
@@ -162,7 +179,7 @@ app.use((err, req, res, next) => {
 
 // ------------------ DB ------------------
 mongoose
-  .connect("mongodb://127.0.0.1:27017/wanderLust")
+  .connect(db_url)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 

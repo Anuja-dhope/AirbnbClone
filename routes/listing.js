@@ -52,15 +52,23 @@ const { isLoggedIn } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 
 // ------------------ VALIDATION ------------------
+// const validateListing = (req, res, next) => {
+//   const { error } = listingSchema.validate(req.body);
+//   console.log(error)
+//   if (error) {
+//     const msg = error.details.map(el => el.message).join(",");
+//     throw new ExpressError(400, msg);
+//   }
+//   next();
+// };
 const validateListing = (req, res, next) => {
-  const { error } = listingSchema.validate(req.body);
+  const { error } = listingSchema.validate(req.body); // validate top-level
   if (error) {
     const msg = error.details.map(el => el.message).join(",");
     throw new ExpressError(400, msg);
   }
   next();
 };
-
 // ------------------ ROUTES ------------------
 router
   .route("/")

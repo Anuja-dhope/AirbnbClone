@@ -1,8 +1,4 @@
-
-
-
 <% layout('layouts/boilerplate') -%>
-
 <body>
   <div class="individualListing">
 
@@ -37,13 +33,14 @@
       <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate>
         <h3>Leave Comment</h3>
 
-        <fieldset class="starability-slot">
-          <p class="form-label">Rating:</p>
-          <% for (let i = 1; i <= 5; i++) { %>
-            <input type="radio" name="review[rating]" value="<%= i %>">
-            <label><%= i %> star</label>
-          <% } %>
-        </fieldset>
+    <fieldset class="starability-slot">
+      <legend>Rating:</legend>
+        <% for (let i = 1; i <= 5; i++) { %>
+          <input type="radio" id="star<%= i %>" name="review[rating]" value="<%= i %>" required>
+          <label for="star<%= i %>">⭐</label>
+        <% } %>
+    </fieldset>
+
 
         <label class="form-label">Comment:</label>
         <input type="text" name="review[comment]" class="form-control" required>
@@ -77,4 +74,5 @@
     </div>
 
   </div>
+  
 </body>

@@ -9,7 +9,7 @@ const {isLoggedIn}=require("../middleware.js");
 const reviewController=require("../controllers/review.js");
 
 const validateReview = (req, res, next) => {
-  const { error } = reviewSchema .validate(req.body);
+  const { error } = reviewSchema.validate(req.body.review); // <-- FIX
   if (error) {
     const msg = error.details.map(el => el.message).join(', ');
     throw new ExpressError(400, msg);
@@ -20,7 +20,7 @@ const validateReview = (req, res, next) => {
 
 
 //add review
-router.post("",isLoggedIn,wrapAync(reviewController.addReview));
+router.post("",isLoggedIn,validateReview,wrapAync(reviewController.addReview));
 
 //delete review
 router.delete("/:reviewId",reviewController.delete);

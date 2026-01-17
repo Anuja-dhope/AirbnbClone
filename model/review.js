@@ -8,9 +8,9 @@ let reviewSchema = new Schema({
     },
     rating: {
         type: Number, // This was commented out and missing
+        default: 3,
         min: 1,
         max: 5,
-        required: true
     },
     createdAt: {
         type: Date,
