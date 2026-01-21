@@ -163,12 +163,13 @@ app.use((req, res, next) => {
 });
 
 // ------------------ ROUTES ------------------
+
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
 
 app.get("/", (req, res) => {
-  res.send("WanderLust Home");
+  res.send("Page Not Found :(")
 });
 
 // ------------------ ERROR HANDLER ------------------

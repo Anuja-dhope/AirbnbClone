@@ -158,8 +158,9 @@ module.exports.renderEditForm = async (req, res) => {
 
 // UPDATE
 module.exports.updateListing = async (req, res) => {
+  console.log(req.body)
   const { id } = req.params;
-
+  console.log(id)
   await Listing.findByIdAndUpdate(id, req.body.listing, {
     runValidators: true,
   });

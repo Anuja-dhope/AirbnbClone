@@ -69,6 +69,7 @@ const validateListing = (req, res, next) => {
   }
   next();
 };
+
 // ------------------ ROUTES ------------------
 router
   .route("/")

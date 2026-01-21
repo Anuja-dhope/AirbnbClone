@@ -1,43 +1,43 @@
 <% layout('layouts/boilerplate') -%>
 <body>
   <h1>Your Place Details</h1>
-  <!-- <form action="/listings/new" method="post" novalidate class="needs-validation">
+  <form action="/listings/new" method="post" novalidate class="needs-validation">
     <div class="mb-3">
       <label for="title" class="form-label">Enter Title:</label>
-      <input type="text" name="title" id="title" placeholder="Title of place" required class="form-control">
+      <input type="text" name="listing[title]" id="title" placeholder="Title of place" required class="form-control">
       <div class="valid-feedback">Looks good!</div>
       <div class="invalid-feedback">Please enter a title.</div>
     </div>
 
     <div class="mb-3">
       <label for="url" class="form-label">Enter Image URL:</label>
-      <input type="text" name="url" id="url" class="form-control" placeholder="Enter url of the image">
+      <input type="text" name="listing[image][url]" id="url" class="form-control" placeholder="Enter url of the image">
     </div>
 
     <div class="mb-3">
       <label for="description" class="form-label">Enter Description:</label>
-      <input type="text" name="description" id="description" placeholder="Description of place" required class="form-control">
+      <input type="text" name="listing[description]" id="description" placeholder="Description of place" required class="form-control">
       <div class="valid-feedback">Looks good!</div>
       <div class="invalid-feedback">Please enter a description.</div>
     </div>
 
     <div class="mb-3">
       <label for="price" class="form-label">Enter Price:</label>
-      <input type="number" name="price" id="price" placeholder="Price of place in US dollars" required class="form-control">
+      <input type="number" name="listing[price]" id="listing[price]" placeholder="Price of place in US dollars" required class="form-control">
       <div class="valid-feedback">Looks good!</div>
       <div class="invalid-feedback">Please enter a valid price.</div>
     </div>
 
     <div class="mb-3">
       <label for="location" class="form-label">Enter Location:</label>
-      <input type="text" name="location" id="location" placeholder="Location of place" required class="form-control">
+      <input type="text" name="listing[location]" id="location" placeholder="Location of place" required class="form-control">
       <div class="valid-feedback">Looks good!</div>
       <div class="invalid-feedback">Please enter a location.</div>
     </div>
 
     <div class="mb-3">
       <label for="country" class="form-label">Enter Country:</label>
-      <input type="text" name="country" id="country" placeholder="Country" required class="form-control">
+      <input type="text" name="listing[country]" id="country" placeholder="Country" required class="form-control">
       <div class="valid-feedback">Looks good!</div>
       <div class="invalid-feedback">Please enter a country.</div>
     </div>
@@ -53,8 +53,8 @@
     </div>
 
     <button type="submit" class="btn btn-primary" id="formBtn">Submit</button>
-  </form> -->
-<form action="/listings/new" method="POST" novalidate>
+  </form>
+<!-- <form action="/listings/new" method="POST" novalidate>
   <input name="listing[title]" placeholder="Title" required />
   <input name="listing[image][url]" placeholder="Image URL" />
   <input name="listing[description]" placeholder="Description" required />
@@ -62,7 +62,7 @@
   <input name="listing[location]" placeholder="Location" required />
   <input name="listing[country]" placeholder="Country" required />
   <button>Add Listing</button>
-</form>
+</form> -->
 
 </body>
 
