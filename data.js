@@ -180,7 +180,7 @@ const sampleListings = [
     country: "Indonesia",
   },
   {
-    title: "Mountain View Cabin in Banff",
+    title: "Mountain View Cabin in Banfff",
     description:
       "Enjoy breathtaking mountain views from this cozy cabin in the Canadian Rockies.",
     image: {
